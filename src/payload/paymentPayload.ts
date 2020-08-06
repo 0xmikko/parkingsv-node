@@ -5,12 +5,12 @@
 
 import { validate, IsNotEmpty } from "class-validator";
 
-export class OpenReq {
+export class StartParkingReq {
   @IsNotEmpty()
   pubkey: string;
 }
 
-export class OpenRes {
+export class StopParkingRes {
   timeStamp: number;
   signature: string;
 }

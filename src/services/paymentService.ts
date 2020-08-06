@@ -9,7 +9,7 @@ import { PaymentRepository } from "../repositories/paymentRepository";
 import { SocketUpdate } from "../core/operations";
 
 import { v4 as uuidv4 } from "uuid";
-import { OpenReq, OpenRes } from '../payload/paymentPayload';
+import { StartParkingReq, StopParkingRes } from '../payload/paymentPayload';
 
 @Service()
 export class PaymentService {
@@ -19,7 +19,7 @@ export class PaymentService {
 
   private _updateQueue: SocketUpdate[] = [];
 
-  async startParking(dto: OpenReq) : Promise<OpenRes> {
+  async startParking(dto: StartParkingReq) : Promise<StopParkingRes> {
     return {
       timeStamp: Date.now(),
       signature: "Date signature",

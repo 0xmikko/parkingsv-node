@@ -9,8 +9,8 @@ import { DefaultErrorHandler } from "./middleware/errorHandler";
 import { morganLogger } from "./middleware/morganLogger";
 import { Container } from "typedi";
 import { SocketRouter } from "./controllers/socketRouter";
-import { PaymentController } from "./controllers/paymentController";
 import { BarriersController } from "./controllers/barrierController";
+import { ParkingController } from "./controllers/parkingController";
 
 export const createApp = async (): Promise<Application> => {
   console.log(process.env);
@@ -18,7 +18,7 @@ export const createApp = async (): Promise<Application> => {
   const app = express();
   app.use(morganLogger);
   useExpressServer(app, {
-    controllers: [PaymentController],
+    controllers: [ParkingController],
     cors: {
       origin: "*",
     },
