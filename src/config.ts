@@ -4,6 +4,7 @@
  */
 
 import { validate, IsNotEmpty } from "class-validator";
+import {KeyUtil} from "parkingsv-contract";
 
 export class Config {
   static port: number;
@@ -29,6 +30,12 @@ export class Config {
   @IsNotEmpty()
   static pubkey: string;
 
+  @IsNotEmpty()
+  static privateKey: string;
+
+  @IsNotEmpty()
+  static fundingTransaction: string;
+
   static init() {
     Config.port = parseInt(process.env.PORT || "4000");
     Config.id = process.env.PARKING_ID || "";
@@ -37,7 +44,10 @@ export class Config {
     Config.price1h = parseInt(process.env.PRICE_1H || "0");
     Config.price2h = parseInt(process.env.PRICE_2H || "0");
     Config.price24h = parseInt(process.env.PRICE_24H || "0");
-    Config.pubkey = process.env.PUBKEY || "";
+    Config.privateKey = process.env.PRIVATEKEY || "";
+    Config.pubkey = KeyUtil.getAddress(Config.privateKey);
+    Config.fundingTransaction = process.env.FUNDING_TRANSACTION || "";
+
   }
 
   static async validate(): Promise<void> {

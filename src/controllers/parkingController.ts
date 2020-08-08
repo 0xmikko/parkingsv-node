@@ -9,19 +9,22 @@ import { Container, Inject } from "typedi";
 import { ParkingService } from "../services/parkingService";
 import { PaymentService } from "../services/paymentService";
 import { StartParkingReq } from "../payload/paymentPayload";
-import { Post } from "routing-controllers/index";
+import {Controller, Post} from "routing-controllers/index";
 
 @JsonController("/api/parking")
 export class ParkingController {
   @Inject()
   private _service: ParkingService;
+
+  @Inject()
   private _paymentService: PaymentService;
   private _logger: Logger;
 
-  public constructor() {
+  constructor() {
     this._logger = getLogger();
     this._logger.level = "debug";
     this._service = Container.get(ParkingService);
+    this._paymentService = Container.get(PaymentService);
   }
 
   @Get("/")
@@ -30,8 +33,8 @@ export class ParkingController {
   }
 
   @Post("/start")
-  async open(@Body() req: StartParkingReq) {
-    return await this._paymentService.startParking(req);
+  start(@Body() req: StartParkingReq) {
+    return this._paymentService.startParking(req);
   }
 
   @Post("/pay")

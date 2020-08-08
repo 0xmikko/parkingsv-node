@@ -10,9 +10,8 @@ export class StartParkingReq {
   pubkey: string;
 }
 
-export class StopParkingRes {
-  timeStamp: number;
-  signature: string;
+export class StartParkingRes {
+  timestamp: number;
 }
 
 export class PayReq {

@@ -4,12 +4,12 @@
  */
 
 import { Payment } from './../core/payment';
-import { Inject, Service } from "typedi";
+import {Container, Inject, Service} from "typedi";
 import { PaymentRepository } from "../repositories/paymentRepository";
 import { SocketUpdate } from "../core/operations";
 
 import { v4 as uuidv4 } from "uuid";
-import { StartParkingReq, StopParkingRes } from '../payload/paymentPayload';
+import { StartParkingReq, StartParkingRes } from '../payload/paymentPayload';
 
 @Service()
 export class PaymentService {
@@ -19,10 +19,16 @@ export class PaymentService {
 
   private _updateQueue: SocketUpdate[] = [];
 
-  async startParking(dto: StartParkingReq) : Promise<StopParkingRes> {
+  constructor() {
+    this._paymentRepository = Container.get(PaymentRepository);
+  }
+
+
+  startParking(dto: StartParkingReq) : StartParkingRes {
+
+    const timeStamp =  Date.now();
     return {
-      timeStamp: Date.now(),
-      signature: "Date signature",
+      timestamp: timeStamp,
     }
   }
 
