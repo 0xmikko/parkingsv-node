@@ -14,7 +14,6 @@ export class SocketRouter implements SocketPusher {
   private readonly socketsPool: Record<string, Socket> = {};
   private readonly _controllers: SocketController[];
   private readonly _updateQueue = new Queue<SocketUpdate>();
-  private readonly _pendingQueue = new Queue<SocketUpdate>();
 
   constructor(controllers: SocketController[]) {
     this._controllers = [...controllers];
@@ -35,6 +34,7 @@ export class SocketRouter implements SocketPusher {
   private _onNewAuthSocket(socket: SocketE, code: string) {
     // Add new socket in socketsPool connection array
     this.socketsPool[code] = socket;
+    socket.emit("authenticated", {})
     console.log(`[SOCKET.IO] : barrier ${code} connected`);
 
     // Middleware to show all incoming requests
@@ -102,11 +102,6 @@ export class SocketRouter implements SocketPusher {
     this._updateQueue.push(event);
   }
 
-  public pushPendingQueue(event: SocketUpdate) {
-    // ToDo: Add hash skipping
-    this._pendingQueue.push(event);
-  }
-
   private async updateQueue() {
     while (await this.updateQueueElm()) {}
     setTimeout(() => this.updateQueue(), 100);
@@ -114,17 +109,18 @@ export class SocketRouter implements SocketPusher {
 
   private async updateQueueElm(): Promise<boolean> {
     let msg: SocketUpdate | undefined;
-    msg = this._pendingQueue.pop();
-    if (msg === undefined) msg = this._updateQueue.pop();
+    msg = this._updateQueue.pop();
+
+
     if (msg === undefined) return false;
-    const userId = msg.userId;
-    const barrierSocket = this.socketsPool[userId];
+    console.log("UPDATE", msg)
+    const code = msg.code;
+    const barrierSocket = this.socketsPool[code];
 
     if (barrierSocket === undefined) {
       return false;
     }
-    const payload = await msg.handler();
-    barrierSocket.emit(msg.event, payload);
+    barrierSocket.emit(msg.event, "open");
 
     return true;
   }

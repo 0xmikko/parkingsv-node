@@ -15,7 +15,6 @@ export type STATUS =
     | "STATUS.FAILURE";
 
 export interface SocketUpdate {
-    userId: string
+    code: string,
     event: string,
-    handler: () => Promise<unknown>,
 }

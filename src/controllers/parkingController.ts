@@ -8,7 +8,7 @@ import { Get, Body, JsonController } from "routing-controllers";
 import { Container, Inject } from "typedi";
 import { ParkingService } from "../services/parkingService";
 import { PaymentService } from "../services/paymentService";
-import { StartParkingReq } from "../payload/paymentPayload";
+import {PayReq, StartParkingReq} from "../payload/paymentPayload";
 import {Controller, Post} from "routing-controllers/index";
 
 @JsonController("/api/parking")
@@ -18,6 +18,8 @@ export class ParkingController {
 
   @Inject()
   private _paymentService: PaymentService;
+
+
   private _logger: Logger;
 
   constructor() {
@@ -38,7 +40,7 @@ export class ParkingController {
   }
 
   @Post("/pay")
-  async pay(@Body() req: StartParkingReq) {
-    return await this._paymentService.startParking(req);
+  async pay(@Body() req: PayReq) {
+    await this._paymentService.pay(req);
   }
 }

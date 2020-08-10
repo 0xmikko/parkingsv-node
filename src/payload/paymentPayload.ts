@@ -16,5 +16,8 @@ export class StartParkingRes {
 
 export class PayReq {
   @IsNotEmpty()
-  tx: string;
+  txHex: string;
+
+  @IsNotEmpty()
+  code: string;
 }

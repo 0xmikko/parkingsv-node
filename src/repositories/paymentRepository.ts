@@ -7,6 +7,7 @@ import { Service } from "typedi";
 import config from "../config";
 import { KeyUtil, ParkingToken } from "parkingsv-contract";
 import {compileContract, loadDesc} from "parkingsv-contract/lib/loadContract";
+import {tx} from "parkingsv-contract/lib/helper";
 
 @Service()
 export class PaymentRepository {
@@ -29,5 +30,7 @@ export class PaymentRepository {
     })();
   }
 
-  async verifyAndSendTx() {}
+  async pay(txHex: string) {
+    await this.contract.payByJSON(txHex)
+  }
 }
