@@ -31,14 +31,13 @@ export class PaymentService {
 
   startParking(dto: StartParkingReq): StartParkingRes {
     const timeStamp = Date.now();
-    this._barrierService.openBarrier('BARRIER1');
     return {
       timestamp: timeStamp,
     };
   }
 
   async pay(dto: PayReq) {
-    await this._paymentRepository.pay(dto.txHex);
+    // await this._paymentRepository.pay(dto.txHex);
     this._barrierService.openBarrier(dto.code);
   }
 }

@@ -42,5 +42,6 @@ export class ParkingController {
   @Post("/pay")
   async pay(@Body() req: PayReq) {
     await this._paymentService.pay(req);
+    return "ok"
   }
 }
