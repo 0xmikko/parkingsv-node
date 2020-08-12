@@ -34,7 +34,7 @@ export class SocketRouter implements SocketPusher {
   private _onNewAuthSocket(socket: SocketE, code: string) {
     // Add new socket in socketsPool connection array
     this.socketsPool[code] = socket;
-    socket.emit("authenticated", {})
+    socket.emit("authenticated", {});
     console.log(`[SOCKET.IO] : barrier ${code} connected`);
 
     // Middleware to show all incoming requests
@@ -111,9 +111,8 @@ export class SocketRouter implements SocketPusher {
     let msg: SocketUpdate | undefined;
     msg = this._updateQueue.pop();
 
-
     if (msg === undefined) return false;
-    console.log("UPDATE", msg)
+    console.log("UPDATE", msg);
     const code = msg.code;
     const barrierSocket = this.socketsPool[code];
 

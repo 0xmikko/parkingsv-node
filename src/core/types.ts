@@ -3,11 +3,6 @@
  * Copyright (c) 2020. Mikhail Lazarev
  */
 
-export interface EntityWithId {
-    id: string;
-
-}
-
 export class Queue<T> {
     _store: T[] = [];
     push(val: T) {

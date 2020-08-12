@@ -14,10 +14,8 @@ export class PaymentRepository {
   private contract: ParkingToken;
 
   constructor() {
-    console.log("PPRR");
     compileContract("token.scrypt")
     const desc = loadDesc("token_desc.json");
-    console.log(desc);
     const privateKey = KeyUtil.getPrivateKeyFromWIF(config.privateKey);
     (async () => {
       this.contract = await ParkingToken.fromTransaction(
